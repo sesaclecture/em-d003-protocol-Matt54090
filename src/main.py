@@ -40,25 +40,27 @@ def parse_uart_rx_packet(packet):
     return packet.decode("utf-8").rstrip("\n")
 
 
-# 문제 4. (내일 진도)
+# 문제 4.
 #
 # I2C 7-bit 주소가 유효한지 확인하세요.
-#
-# address는 정수입니다.
-# 유효하면 True, 아니면 False를 반환해야 합니다.
+# 하나의 master에 다수의 slave
+# slave별로 고유 주소값?은 0x00 ~ 0x7f => '7 비트'
+# address는 정수입니다. => int형
+# 유효하면 True, 아니면 False를 반환해야 합니다. => 7 비트 내: True 아니면 False
 def is_valid_i2c_address(address):
-    raise NotImplementedError
+    return 0x00 <= address <= 0x7F
 
 
-# 문제 5. (내일 진도)
+# 문제 5.
 #
 # SPI 전송 프레임을 생성하세요.
-#
-# command는 0~255 범위의 정수입니다.
-# payload는 0~255 범위의 정수 리스트입니다.
+# 1 클럭에 1 비트씩 보내는 통신
+# command는 0~255 범위의 정수입니다. -> int
+# payload는 0~255 범위의 정수 리스트입니다. -> list
 #
 # 전송 프레임은 아래 순서로 구성합니다.
 #
-# [command, payload_length, payload...]
+# [command, payload_length, payload...] -> 리스트 형태로 반환
 def make_spi_transfer_frame(command, payload):
-    raise NotImplementedError
+    return [command, len(payload)] + list(payload)
+    # [명령 + 길이 + 데이터] : list(playload)로 따로 만들어서 원본 보존
